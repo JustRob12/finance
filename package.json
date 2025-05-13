@@ -1,21 +1,31 @@
 {
   "name": "finance",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Financial Tracker Application",
+  "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "build": "cd frontend && npm install && npm run build",
+    "vercel-build": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JustRob12/finance.git"
   },
-  "keywords": [],
+  "keywords": [
+    "finance",
+    "tracker",
+    "budget",
+    "plaid"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/JustRob12/finance/issues"
   },
-  "homepage": "https://github.com/JustRob12/finance#readme"
+  "homepage": "https://github.com/JustRob12/finance#readme",
+  "engines": {
+    "node": ">=14.x"
+  }
 }

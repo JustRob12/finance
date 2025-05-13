@@ -38,69 +38,104 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <h1>Register</h1>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={onChange}
-            required
-          />
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-header">
+          <div className="app-logo">💰</div>
+          <h1 className="app-title">Financial Tracker</h1>
+          <p className="auth-subtitle">Create an account to start tracking</p>
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={onChange}
-            required
-          />
+        
+        <form onSubmit={onSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="name">Full Name</label>
+            <div className="input-with-icon">
+              <i className="input-icon">👤</i>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                onChange={onChange}
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <div className="input-with-icon">
+              <i className="input-icon">✉️</i>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={onChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <div className="input-with-icon">
+              <i className="input-icon">🔒</i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={onChange}
+                placeholder="Create a password"
+                required
+                minLength={6}
+              />
+            </div>
+            <p className="password-hint">Password must be at least 6 characters</p>
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="passwordConfirm">Confirm Password</label>
+            <div className="input-with-icon">
+              <i className="input-icon">🔒</i>
+              <input
+                type="password"
+                id="passwordConfirm"
+                name="passwordConfirm"
+                value={passwordConfirm}
+                onChange={onChange}
+                placeholder="Confirm your password"
+                required
+                minLength={6}
+              />
+            </div>
+          </div>
+          
+          {passwordError && <div className="auth-error">{passwordError}</div>}
+          {error && <div className="auth-error">{error}</div>}
+          
+          <button type="submit" className="auth-button">
+            Create Account
+          </button>
+        </form>
+        
+        <div className="auth-divider">
+          <span>or continue with</span>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-            required
-            minLength={6}
-          />
+        
+        <div className="social-auth">
+          <GoogleSignIn />
         </div>
-        <div className="form-group">
-          <label htmlFor="passwordConfirm">Confirm Password</label>
-          <input
-            type="password"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            onChange={onChange}
-            required
-            minLength={6}
-          />
+        
+        <div className="auth-footer">
+          <p>
+            Already have an account? <Link to="/login" className="auth-link">Sign in</Link>
+          </p>
         </div>
-        {passwordError && <div className="error-message">{passwordError}</div>}
-        {error && <div className="error-message">{error}</div>}
-        <button type="submit" className="btn-primary">
-          Register
-        </button>
-      </form>
-      
-      <div className="or-divider">
-        <span>OR</span>
       </div>
-      
-      <div className="social-login">
-        <GoogleSignIn />
-      </div>
-      
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
     </div>
   );
 };

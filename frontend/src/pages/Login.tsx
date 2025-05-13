@@ -28,46 +28,71 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={onChange}
-            required
-          />
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-header">
+          <div className="app-logo">💰</div>
+          <h1 className="app-title">Financial Tracker</h1>
+          <p className="auth-subtitle">Sign in to manage your finances</p>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-            required
-          />
+        
+        <form onSubmit={onSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <div className="input-with-icon">
+              <i className="input-icon">✉️</i>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={onChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <div className="password-label-row">
+              <label htmlFor="password">Password</label>
+              <Link to="/forgot-password" className="forgot-password">Forgot password?</Link>
+            </div>
+            <div className="input-with-icon">
+              <i className="input-icon">🔒</i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={onChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+          </div>
+          
+          {error && <div className="auth-error">{error}</div>}
+          
+          <button type="submit" className="auth-button">
+            Sign In
+          </button>
+        </form>
+        
+        <div className="auth-divider">
+          <span>or continue with</span>
         </div>
-        {error && <div className="error-message">{error}</div>}
-        <button type="submit" className="btn-primary">
-          Login
-        </button>
-      </form>
-      
-      <div className="or-divider">
-        <span>OR</span>
+        
+        <div className="social-auth">
+          <GoogleSignIn />
+        </div>
+        
+        <div className="auth-footer">
+          <p>
+            Don't have an account? <Link to="/register" className="auth-link">Create account</Link>
+          </p>
+        </div>
       </div>
-      
-      <div className="social-login">
-        <GoogleSignIn />
-      </div>
-      
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
     </div>
   );
 };

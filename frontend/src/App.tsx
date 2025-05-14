@@ -9,11 +9,13 @@ import TransactionList from './components/transaction/TransactionList';
 import WalletFormPage from './pages/WalletForm';
 import TransactionForm from './pages/TransactionForm';
 import BankAccounts from './pages/BankAccounts';
+import InstallPWA from './components/InstallPWA';
 import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
     // This will help identify if the App component is properly loading
@@ -26,8 +28,19 @@ function App() {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 500);
+
+    // Add online/offline event listeners
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, []);
 
   if (isLoading) {
@@ -37,6 +50,11 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        {!isOnline && (
+          <div className="offline-banner">
+            You are currently offline. Some features may be unavailable.
+          </div>
+        )}
         <div className="container">
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
@@ -63,6 +81,7 @@ function App() {
             } />
           </Routes>
         </div>
+        <InstallPWA />
       </Router>
     </AuthProvider>
   );

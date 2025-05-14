@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/JustRob12/finance#readme",
   "engines": {
-    "node": ">=14.x"
+    "node": "18.x"
   }
 }

@@ -11,13 +11,17 @@ const GoogleSignIn = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const { user } = result;
       
-      // Get user details
+      console.log('Firebase auth result:', result);
+      
+      // Get user details with fallbacks for all properties
       const userData = {
-        id: user.uid,
+        id: user.uid || '',
         name: user.displayName || 'User',
         email: user.email || '',
         photoURL: user.photoURL || ''
       };
+      
+      console.log('Sending user data to backend:', userData);
       
       // Call the context method to handle authentication
       await loginWithGoogle(userData);

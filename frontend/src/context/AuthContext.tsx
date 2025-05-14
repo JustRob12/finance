@@ -108,20 +108,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Login with Google
   const loginWithGoogle = async (userData: GoogleUser) => {
     try {
+      console.log('AuthContext: Processing Google login with user data:', userData);
+      
+      if (!userData || !userData.id) {
+        throw new Error('Invalid user data provided');
+      }
+      
       // Send Google user data to backend
       const res = await api.post('/api/auth/google', { userData });
+      console.log('AuthContext: Backend response:', res.data);
+      
       localStorage.setItem('token', res.data.token);
       setToken(res.data.token);
       setUser({
-        id: userData.id,
-        name: userData.name,
-        email: userData.email,
-        photoURL: userData.photoURL
+        id: res.data.user.id || userData.id,
+        name: res.data.user.name || userData.name,
+        email: res.data.user.email || userData.email,
+        photoURL: res.data.user.photoURL || userData.photoURL
       });
       setIsAuthenticated(true);
       setError(null);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Google login failed');
+      console.error('Google login error:', err);
+      const errorMessage = err.response?.data?.message || 'Google login failed';
+      setError(errorMessage);
+      // Alert the user
+      alert(`Login error: ${errorMessage}`);
     }
   };
 

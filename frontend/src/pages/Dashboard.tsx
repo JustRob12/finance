@@ -132,7 +132,7 @@ const Dashboard = () => {
         <div className="balance-date">As of {new Date().toLocaleDateString()}</div>
       </div>
       
-      {/* Summary Cards */}
+      {/* Summary Cards
       <div className="summary-cards">
         <div className="summary-card">
           <div className="card-value">{Array.isArray(wallets) ? wallets.length : 0}</div>
@@ -152,9 +152,9 @@ const Dashboard = () => {
           </div>
           <div className="card-label">Expenses</div>
         </div>
-      </div>
+      </div> */}
       
-      {/* Monthly Summary */}
+      {/* Monthly Summary
       <div className="monthly-summary">
         <h3>Monthly Summary</h3>
         
@@ -171,7 +171,7 @@ const Dashboard = () => {
             <span className="stat-value">₱{formatCurrency(dashboardData?.analytics?.expenses || 0)}</span>
           </div>
         </div>
-      </div>
+      </div> */}
       
       {/* Recent Transactions */}
       <div className="dashboard-recent-transactions">

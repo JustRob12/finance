@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
-import PlaidLinkButton from '../components/plaid/PlaidLinkButton';
 
 interface Wallet {
   _id: string;
@@ -46,7 +45,6 @@ const FinanceDashboard = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState('Month');
   const [loading, setLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState<FinanceDashboardData | null>(null);
   const [wallets, setWallets] = useState<Wallet[]>([]);
@@ -141,26 +139,6 @@ const FinanceDashboard = () => {
 
   const navigateToDashboard = () => {
     navigate('/dashboard');
-  };
-
-  const handlePlaidSuccess = async (publicToken: string, metadata: any) => {
-    try {
-      await axios.post('/api/plaid/exchange-token', {
-        public_token: publicToken,
-        metadata: metadata
-      });
-      
-      // Refresh bank accounts list
-      fetchBankAccounts();
-    } catch (err) {
-      console.error('Error linking bank account:', err);
-    }
-  };
-
-  const handlePlaidExit = (err: any, metadata: any) => {
-    if (err != null) {
-      console.error('Plaid Link exit with error:', err, metadata);
-    }
   };
 
   if (loading) {

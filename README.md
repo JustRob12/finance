@@ -1,6 +1,6 @@
-# Finance Tracker Application
+# Finance Application
 
-A full-stack finance management application built with the MERN stack (MongoDB, Express, React, Node.js).
+A full-stack financial tracking application with wallet management and transaction tracking.
 
 ## Features
 
@@ -45,34 +45,117 @@ A full-stack finance management application built with the MERN stack (MongoDB, 
 - JWT handling for authentication
 - Firebase integration for Google Sign-In
 
-## Getting Started
+## Build and Deploy Guide
 
 ### Prerequisites
+- Node.js (v14 or higher)
+- npm
+- MongoDB account
+- Vercel account
+- Firebase account (for Google Sign-In)
 
-- Node.js
-- MongoDB
-- Firebase project (for Google authentication)
+### Local Development
 
-### Installation
+1. Clone the repository:
+```
+git clone https://github.com/JustRob12/finance.git
+cd finance
+```
 
-1. Clone the repository
-2. Install dependencies:
-   ```
-   cd backend && npm install
-   cd frontend && npm install
-   ```
-3. Set up environment variables:
-   - Create `.env` files in both frontend and backend directories
-   - Configure MongoDB connection string, JWT secret, and Firebase credentials
+2. Install server dependencies:
+```
+npm install
+```
 
-4. Start the application:
-   ```
-   # Start backend
-   cd backend && npm start
-   
-   # Start frontend
-   cd frontend && npm start
-   ```
+3. Install frontend dependencies:
+```
+cd frontend
+npm install
+cd ..
+```
+
+4. Create a `.env` file in the root directory based on the `env.example` file:
+```
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+PORT=5000
+NODE_ENV=development
+PLAID_CLIENT_ID=your_plaid_client_id
+PLAID_SECRET=your_plaid_secret
+PLAID_ENV=sandbox
+```
+
+5. Run the development server:
+```
+cd frontend
+npm run dev
+```
+
+6. In a separate terminal, start the backend:
+```
+npm start
+```
+
+### Building for Production
+
+1. Build the frontend application:
+```
+cd frontend
+npm run build
+```
+This will compile TypeScript and bundle the React app into the `dist` folder.
+
+2. Test the production build locally:
+```
+npm run preview
+```
+
+### Deploying to Vercel
+
+1. Install Vercel CLI:
+```
+npm install -g vercel
+```
+
+2. Login to Vercel:
+```
+vercel login
+```
+
+3. Deploy the project:
+```
+vercel
+```
+
+4. Follow the interactive prompts:
+   - Set up and deploy: `y`
+   - Which scope: Select your account
+   - Link to existing project: `n`
+   - Project name: Press Enter for default or type a custom name
+   - Directory: Press Enter to use current directory
+   - Override settings: `y`
+   - Build Command: `npm run vercel-build`
+   - Output Directory: `frontend/dist`
+   - Development Command: Leave blank, press Enter
+
+5. Configure environment variables:
+```
+vercel env add MONGO_URI
+vercel env add JWT_SECRET
+vercel env add PLAID_CLIENT_ID
+vercel env add PLAID_SECRET
+```
+
+6. After adding all environment variables, deploy to production:
+```
+vercel --prod
+```
+
+## Project Structure
+
+- `/server` - Backend Node.js server with Express and MongoDB
+- `/frontend` - React+TypeScript frontend application
+- `vercel.json` - Vercel deployment configuration
 
 ## Technologies Used
 

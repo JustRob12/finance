@@ -41,7 +41,7 @@ const BankAccounts = () => {
       setError(null);
       
       // Exchange public token for access token and store bank account data
-      const response = await axios.post('/api/plaid/exchange-token', {
+      await axios.post('/api/plaid/exchange-token', {
         public_token: publicToken,
         metadata: metadata
       });

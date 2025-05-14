@@ -14,5 +14,9 @@ export default defineConfig({
         rewrite: (path) => path
       }
     }
+  },
+  // Define environment variables
+  define: {
+    'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'https://finance-fndz.onrender.com')
   }
 })

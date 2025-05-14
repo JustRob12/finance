@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import axios from 'axios';
+import api from '../config/api';
 
 interface User {
   id: string;
@@ -13,7 +13,7 @@ interface GoogleUser {
   id: string;
   name: string;
   email: string;
-  photoURL: string;
+  photoURL?: string;
 }
 
 interface AuthContextType {
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (token) {
         setAuthToken(token);
         try {
-          const res = await axios.get('/api/dashboard');
+          const res = await api.get('/api/dashboard');
           setUser(res.data.user);
           setIsAuthenticated(true);
         } catch (err) {
@@ -70,19 +70,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadUser();
   }, [token]);
 
-  // Set axios default header with token
+  // Set token in API client
   const setAuthToken = (token: string) => {
     if (token) {
-      axios.defaults.headers.common['x-auth-token'] = token;
+      // Token is automatically set by the API client interceptor
+      localStorage.setItem('token', token);
     } else {
-      delete axios.defaults.headers.common['x-auth-token'];
+      localStorage.removeItem('token');
     }
   };
 
   // Register user
   const register = async (name: string, email: string, password: string) => {
     try {
-      const res = await axios.post('/api/auth/register', { name, email, password });
+      const res = await api.post('/api/auth/register', { name, email, password });
       localStorage.setItem('token', res.data.token);
       setToken(res.data.token);
       setError(null);
@@ -94,7 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Login user
   const login = async (email: string, password: string) => {
     try {
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await api.post('/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       setToken(res.data.token);
       setUser(res.data.user);
@@ -108,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loginWithGoogle = async (userData: GoogleUser) => {
     try {
       // Send Google user data to backend
-      const res = await axios.post('/api/auth/google', { userData });
+      const res = await api.post('/api/auth/google', { userData });
       localStorage.setItem('token', res.data.token);
       setToken(res.data.token);
       setUser({

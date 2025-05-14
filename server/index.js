@@ -14,9 +14,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration - Allow all origins for Render
+// Enhanced CORS for Vercel frontend and Render backend
 const corsOptions = {
-  origin: '*',  // Allow all origins
+  origin: ['https://finance-pink.vercel.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
   credentials: true
@@ -46,26 +46,14 @@ app.use('/api/wallet', walletRoutes);
 app.use('/api/transaction', transactionRoutes);
 app.use('/api/plaid', plaidRoutes);
 
-// Serve frontend static files in production
-if (process.env.NODE_ENV === 'production') {
-  console.log('Running in production mode - serving static files');
-  
-  // Set static folder
-  const distPath = path.join(__dirname, '../frontend/dist');
-  console.log('Static files path:', distPath);
-  
-  app.use(express.static(distPath));
-  
-  // Serve index.html for any route not handled by the API
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'));
+// Simple welcome message for the API
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Finance API is running',
+    documentation: 'API available at /api routes',
+    frontendUrl: 'https://finance-pink.vercel.app'
   });
-} else {
-  // In development, just show a message
-  app.get('/', (req, res) => {
-    res.send('Financial Tracker API is running in development mode');
-  });
-}
+});
 
 // Log the port we're using
 console.log(`Starting server on port ${PORT}`);

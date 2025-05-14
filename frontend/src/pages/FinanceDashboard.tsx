@@ -50,7 +50,7 @@ const FinanceDashboard = () => {
 
   const fetchTransactions = async () => {
     try {
-      const res = await api.get('/api/transactions');
+      const res = await api.get('/api/transaction/user');
       setTransactions(res.data);
     } catch (err) {
       console.error('Error fetching transactions:', err);
@@ -229,7 +229,7 @@ const FinanceDashboard = () => {
                   <span className="action-icon">🗑️</span>
                 </button>
               </div>
-              <div className="wallet-main wallet-main-responsive" onClick={() => navigate(`/wallet/${wallet._id}`)}>
+              <div className="wallet-main wallet-main-responsive" onClick={() => navigate(`/wallet/edit/${wallet._id}`)}>
                 <div className="wallet-icon">
                   <span role="img" aria-label="wallet" className="wallet-icon-symbol">
                     {wallet.name.toLowerCase().includes('cash') ? '💵' : 

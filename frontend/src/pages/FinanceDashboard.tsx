@@ -243,9 +243,14 @@ const FinanceDashboard = () => {
                   <span className="action-icon">🗑️</span>
                 </button>
               </div>
-              <div className="wallet-main" onClick={() => navigate(`/wallet/${wallet._id}`)}>
+              <div className="wallet-main wallet-main-responsive" onClick={() => navigate(`/wallet/${wallet._id}`)}>
                 <div className="wallet-icon">
-                  <span role="img" aria-label="wallet" className="wallet-icon-symbol">💼</span>
+                  <span role="img" aria-label="wallet" className="wallet-icon-symbol">
+                    {wallet.name.toLowerCase().includes('cash') ? '💵' : 
+                     wallet.name.toLowerCase().includes('bank') ? '🏦' : 
+                     wallet.name.toLowerCase().includes('credit') ? '💳' : 
+                     wallet.name.toLowerCase().includes('savings') ? '🏆' : '💼'}
+                  </span>
                 </div>
                 <div className="wallet-details">
                   <p className="wallet-name">{wallet.name}</p>
@@ -336,9 +341,11 @@ const FinanceDashboard = () => {
                 <div className="expense-category-header">
                   <div className="expense-category-label">
                     <div className="expense-dot" style={{ backgroundColor: getCategoryColor(category.category) }}></div>
-                    <span className="expense-category-name">{category.category}</span>
+                    <span className="expense-category-name" title={category.category}>{category.category}</span>
                   </div>
-                  <span className="expense-amount">${formatCurrency(category.total)}</span>
+                  <span className="expense-amount" title={`$${formatCurrency(category.total)}`}>
+                    ${formatCurrency(category.total)}
+                  </span>
                 </div>
                 <div className="expense-bar-container">
                   <div 
@@ -375,7 +382,7 @@ const FinanceDashboard = () => {
         {dashboardData?.recentTransactions && dashboardData.recentTransactions.length > 0 ? (
           <div className="transactions-list">
             {dashboardData.recentTransactions.map(transaction => (
-              <div key={transaction.id} className="finance-transaction-item">
+              <div key={transaction.id} className={`finance-transaction-item ${transaction.type}-type`}>
                 <div className={`transaction-icon-circle ${transaction.type}`}>
                   {transaction.category === 'Food' && <span>🍔</span>}
                   {transaction.category === 'Shopping' && <span>🛍️</span>}
@@ -391,7 +398,7 @@ const FinanceDashboard = () => {
                 <div className="transaction-info-container">
                   <div className="transaction-details">
                     <h4>{transaction.category}</h4>
-                    <p className="transaction-description">{transaction.description}</p>
+                    <p className="transaction-description">{transaction.description || 'No description'}</p>
                     <p className="transaction-date">{formatDate(transaction.date)}</p>
                   </div>
                   <p className={`transaction-amount ${transaction.type}`}>

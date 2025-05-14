@@ -14,11 +14,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enhanced CORS configuration for deployment
+// CORS configuration - Allow all origins for Render
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? [/\.render\.com$/, /localhost:\d+$/]  // Allow Render domains and localhost
-    : '*',
+  origin: '*',  // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
   credentials: true
@@ -28,10 +26,10 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 
-// Connect to MongoDB with additional options
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
-  serverSelectionTimeoutMS: 5000,  // Timeout after 5s instead of 30s
-  socketTimeoutMS: 45000,          // Close sockets after 45s of inactivity
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
 })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
@@ -48,30 +46,34 @@ app.use('/api/wallet', walletRoutes);
 app.use('/api/transaction', transactionRoutes);
 app.use('/api/plaid', plaidRoutes);
 
-// Serve static assets in production
+// Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
+  console.log('Running in production mode - serving static files');
+  
   // Set static folder
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-  // Any routes that don't match the API routes will serve the React app
+  const distPath = path.join(__dirname, '../frontend/dist');
+  console.log('Static files path:', distPath);
+  
+  app.use(express.static(distPath));
+  
+  // Serve index.html for any route not handled by the API
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
+    res.sendFile(path.join(distPath, 'index.html'));
   });
 } else {
-  // Main API info endpoint for development
+  // In development, just show a message
   app.get('/', (req, res) => {
-    res.send('Financial Tracker API is running');
+    res.send('Financial Tracker API is running in development mode');
   });
 }
 
-// Critical for Render deployment: Log the port we're trying to use
-console.log(`Attempting to listen on port ${PORT}`);
+// Log the port we're using
+console.log(`Starting server on port ${PORT}`);
 
-// Start the server - IMPORTANT: Render requires this exact port binding format
+// Bind to all interfaces (0.0.0.0) for Render
 const server = app.listen(PORT, '0.0.0.0', () => {
   const address = server.address();
   console.log(`Server running on ${address.address}:${address.port}`);
 });
 
-// Export app for potential serverless use
 module.exports = app; 

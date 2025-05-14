@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 
 interface Wallet {
   _id: string;
@@ -65,11 +65,7 @@ const TransactionForm = () => {
   const fetchWallets = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('/api/wallet', {
-        headers: {
-          'x-auth-token': localStorage.getItem('token')
-        }
-      });
+      const res = await api.get('/api/wallet');
       setWallets(res.data);
       
       // Set default wallet if available
@@ -132,13 +128,8 @@ const TransactionForm = () => {
       
       console.log('Sending transaction data:', transactionData);
       
-      // Send the data to the API with the proper configuration
-      const response = await axios.post('/api/transaction', transactionData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': localStorage.getItem('token')
-        }
-      });
+      // Send the data to the API
+      const response = await api.post('/api/transaction', transactionData);
       
       console.log('Transaction response:', response.data);
       

@@ -1,11 +1,7 @@
 import axios from 'axios';
 
-// Create a base API instance
-const API_URL = import.meta.env.VITE_API_URL || 'https://finance-fndz.onrender.com';
-
-// Configure axios for different environments
+// Create a base API instance with relative base URL - it will be proxied through Vercel
 const api = axios.create({
-  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
   }

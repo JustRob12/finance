@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 
 interface WalletFormData {
   name: string;
@@ -60,7 +60,7 @@ const WalletForm = () => {
   const fetchWalletData = async (id: string) => {
     try {
       setLoading(true);
-      const response = await axios.get<WalletResponse>(`/api/wallet/${id}`);
+      const response = await api.get<WalletResponse>(`/api/wallet/${id}`);
       const wallet = response.data;
       
       // Check if this wallet has a bank account
@@ -116,9 +116,9 @@ const WalletForm = () => {
       };
       
       if (isEditMode && walletId) {
-        await axios.put(`/api/wallet/${walletId}`, walletData);
+        await api.put(`/api/wallet/${walletId}`, walletData);
       } else {
-        await axios.post('/api/wallet', walletData);
+        await api.post('/api/wallet', walletData);
       }
       
       // Navigate back to finance dashboard

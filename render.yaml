@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: finance
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      # Render will automatically provide a PORT environment variable
+      # We'll omit the explicit PORT setting to use Render's dynamic port assignment
+      # - key: PORT
+      #   value: 10000
+      - key: PLAID_CLIENT_ID
+        sync: false
+      - key: PLAID_SECRET
+        sync: false
+      - key: PLAID_ENV
+        value: sandbox 

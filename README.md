@@ -163,3 +163,38 @@ vercel --prod
 - **Frontend**: React, TypeScript, React Router, Axios
 - **Authentication**: JWT, Firebase Authentication
 - **Styling**: CSS, Responsive Design
+
+## Render Deployment
+
+### Port Binding for Render
+
+Render requires your application to bind to the port provided by Render via the `PORT` environment variable. The correct binding format is:
+
+```javascript
+const server = app.listen(PORT, '0.0.0.0', () => {
+  const address = server.address();
+  console.log(`Server running on ${address.address}:${address.port}`);
+});
+```
+
+If you see errors about "No open ports detected" in your Render logs, make sure:
+
+1. You're binding to `0.0.0.0` (not localhost or 127.0.0.1)
+2. You're using the port from the `PORT` environment variable
+3. Your server is actually starting without errors
+
+You can test port binding locally with:
+
+```
+PORT=10000 NODE_ENV=production node test-render.js
+```
+
+### Deployment Steps
+
+1. Push all changes to your GitHub repository
+2. In Render dashboard, create a new Web Service
+3. Connect to your GitHub repository
+4. Set Build Command: `npm install && npm run build`
+5. Set Start Command: `npm start`
+6. Add all required environment variables
+7. Deploy

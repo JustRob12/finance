@@ -272,79 +272,337 @@ body {
   margin-top: 1rem;
 }
 
-.transaction-item {
+.transaction-item, .dashboard-transaction-item {
   display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--background-white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--card-shadow);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.dashboard-transaction-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-transaction-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.transaction-item:active {
+  transform: scale(0.98);
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.dashboard-transaction-item.income-type {
+  border-left-color: var(--success-color);
+}
+
+.dashboard-transaction-item.expense-type {
+  border-left-color: var(--danger-color);
+}
+
+.transaction-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-icon-circle.income {
+  background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+  color: white;
+}
+
+.transaction-icon-circle.expense {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  color: white;
+}
+
+.transaction-info-container {
+  display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem;
-  border-bottom: 1px solid #f1f1f1;
 }
 
-.transaction-info h4 {
+.transaction-details {
+  flex: 1;
+  text-align: left;
+}
+
+.transaction-details h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.2rem;
+  color: var(--text-primary);
+}
+
+.transaction-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
   margin: 0;
-  font-size: 1rem;
 }
 
-.transaction-info p {
-  margin: 0.3rem 0 0;
-  font-size: 0.8rem;
-  color: #95a5a6;
+.transaction-info {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
 }
 
 .transaction-amount {
-  font-weight: bold;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.2rem;
 }
 
-.positive {
-  color: #2ecc71;
+.transaction-amount.income {
+  color: var(--success-color);
 }
 
-.negative {
-  color: #e74c3c;
+.transaction-amount.expense {
+  color: var(--danger-color);
 }
 
-/* Media queries for larger screens */
-@media (min-width: 768px) {
-  .container {
-    padding: 1rem;
+.transaction-date {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.dashboard-transactions-list {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.dashboard-recent-transactions {
+  background-color: var(--background-white);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.view-all-link {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+/* Enhanced wallet cards for mobile */
+.wallets-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.wallet-card {
+  position: relative;
+  background-color: var(--background-white);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-wallet-card {
+  height: 120px;
+  background-color: var(--background-light);
+  border: 2px dashed rgba(67, 97, 238, 0.2);
+  border-radius: var(--border-radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Finance section with clear rectangular shapes */
+.finance-section {
+  background-color: var(--background-white);
+  border-radius: var(--border-radius-md);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--card-shadow);
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+/* Bank link cards with better definition */
+.bank-link-card {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  background-color: var(--background-light);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bank-link-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.bank-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--border-radius-full);
+  background-color: rgba(67, 97, 238, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.bank-info {
+  flex: 1;
+  text-align: left;
+}
+
+.bank-info h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: var(--text-primary);
+}
+
+.bank-info p {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.bank-arrow {
+  font-size: 1.5rem;
+  color: var(--text-light);
+  margin-left: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.bank-link-card:hover .bank-arrow {
+  transform: translateX(3px);
+  color: var(--primary-color);
+}
+
+/* Finance Tracker Link */
+.finance-tracker-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--background-white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--card-shadow);
+  margin-top: auto;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.finance-tracker-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.tracker-icon {
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-lg);
+  color: var(--danger-color);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: rgba(244, 63, 94, 0.05);
+}
+
+/* Mobile-specific responsive adjustments */
+@media (max-width: 576px) {
+  .mobile-dashboard {
+    padding: 0.75rem;
   }
   
-  .dashboard-header {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  
-  .user-profile {
-    flex-direction: row;
-    margin-bottom: 0;
-  }
-  
-  .profile-picture, .profile-initial {
-    margin-right: 1rem;
-    margin-bottom: 0;
-  }
-  
-  .user-info {
-    text-align: left;
-  }
-  
-  .header-actions {
-    width: auto;
-    margin-top: 0;
-  }
-  
-  .finance-options {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  
-  .finance-card {
-    flex: 1;
-    min-width: 250px;
-  }
-  
-  .dashboard-analytics {
+  .summary-cards {
     grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .summary-card {
+    padding: 0.75rem;
+  }
+  
+  .wallet-card, .add-wallet-card {
+    height: 110px;
+  }
+  
+  .wallets-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .finance-section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .transaction-item {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -721,158 +979,6 @@ body {
   transform: translateY(0) scale(1);
 }
 
-/* Bank Account Connection */
-.bank-link-card {
-  display: flex;
-  align-items: center;
-  padding: 1.25rem;
-  background-color: var(--background-light);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--card-shadow);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.bank-link-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--card-hover-shadow);
-}
-
-.bank-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: var(--border-radius-full);
-  background-color: rgba(67, 97, 238, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1rem;
-  font-size: 1.5rem;
-  color: var(--primary-color);
-  flex-shrink: 0;
-}
-
-.bank-info {
-  flex: 1;
-  text-align: left;
-}
-
-.bank-info h4 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem;
-  color: var(--text-primary);
-}
-
-.bank-info p {
-  font-size: 0.9rem;
-  margin: 0;
-  color: var(--text-secondary);
-}
-
-.bank-arrow {
-  font-size: 1.5rem;
-  color: var(--text-light);
-  margin-left: 1rem;
-  transition: transform 0.2s ease;
-}
-
-.bank-link-card:hover .bank-arrow {
-  transform: translateX(3px);
-  color: var(--primary-color);
-}
-
-/* Mobile Dashboard */
-.mobile-dashboard {
-  padding: 1.5rem;
-  background-color: var(--background-light);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.mobile-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.mobile-header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-primary);
-}
-
-.profile-section {
-  display: flex;
-  align-items: center;
-  background-color: var(--background-white);
-  padding: 1.25rem;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--card-shadow);
-}
-
-.welcome-text {
-  margin-left: 1rem;
-  text-align: left;
-  flex: 1;
-}
-
-.welcome-text h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem;
-  color: var(--text-primary);
-}
-
-.user-email {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin: 0 0 0.25rem;
-}
-
-.login-status {
-  font-size: 0.8rem;
-  color: var(--success-color);
-  margin: 0;
-}
-
-.dashboard-total-balance {
-  background-color: var(--primary-color);
-  border-radius: var(--border-radius-lg);
-  padding: 1.5rem;
-  color: white;
-  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dashboard-total-balance:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
-}
-
-.dashboard-total-balance h3 {
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 0 0 0.75rem;
-  opacity: 0.9;
-}
-
-.balance-amount {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0.5rem 0;
-}
-
-.balance-date {
-  font-size: 0.8rem;
-  opacity: 0.8;
-  margin: 0.5rem 0 0;
-}
-
 /* Auth Pages */
 .auth-page {
   min-height: 100vh;
@@ -1107,34 +1213,62 @@ body {
 
 /* Enhanced mobile dashboard */
 .mobile-dashboard {
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: var(--background-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-/* Better card separation and definition */
-.summary-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.summary-card {
-  background-color: var(--background-white);
-  border-radius: var(--border-radius-md);
-  padding: 1rem;
-  box-shadow: var(--card-shadow);
+.mobile-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  margin-bottom: 1rem;
 }
 
-/* Enhanced total balance card */
+.mobile-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  background-color: var(--background-white);
+  padding: 1.25rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--card-shadow);
+}
+
+.welcome-text {
+  margin-left: 1rem;
+  text-align: left;
+  flex: 1;
+}
+
+.welcome-text h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: var(--text-primary);
+}
+
+.user-email {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.25rem;
+}
+
+.login-status {
+  font-size: 0.8rem;
+  color: var(--success-color);
+  margin: 0;
+}
+
 .dashboard-total-balance {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   border-radius: var(--border-radius-lg);
@@ -1143,115 +1277,74 @@ body {
   box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
   text-align: center;
   margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Transaction item styling for mobile */
-.transaction-item {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background-color: var(--background-white);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--card-shadow);
-  margin-bottom: 0.75rem;
-  transition: all 0.2s ease;
+.dashboard-total-balance:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
 }
 
-.transaction-item:active {
-  transform: scale(0.98);
-  background-color: rgba(67, 97, 238, 0.05);
+.dashboard-total-balance h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+  opacity: 0.9;
 }
 
-/* Enhanced wallet cards for mobile */
-.wallets-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+.balance-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
 }
 
-.wallet-card {
-  position: relative;
-  background-color: var(--background-white);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--card-shadow);
-  overflow: hidden;
-  height: 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.balance-date {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin: 0.5rem 0 0;
 }
 
-.add-wallet-card {
-  height: 120px;
-  background-color: var(--background-light);
-  border: 2px dashed rgba(67, 97, 238, 0.2);
-  border-radius: var(--border-radius-md);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Finance section with clear rectangular shapes */
-.finance-section {
-  background-color: var(--background-white);
-  border-radius: var(--border-radius-md);
-  padding: 1.25rem;
-  margin-bottom: 1.25rem;
-  box-shadow: var(--card-shadow);
-}
-
-.section-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 1rem 0;
-  color: var(--text-primary);
-}
-
-/* Bank link cards with better definition */
-.bank-link-card {
-  background-color: var(--background-white);
-  border-radius: var(--border-radius-md);
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-  box-shadow: var(--card-shadow);
-  display: flex;
-  align-items: center;
-}
-
-/* Mobile-specific responsive adjustments */
-@media (max-width: 576px) {
-  .mobile-dashboard {
-    padding: 0.75rem;
-  }
-  
-  .summary-cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-  }
-  
-  .summary-card {
-    padding: 0.75rem;
-  }
-  
-  .wallet-card, .add-wallet-card {
-    height: 110px;
-  }
-  
-  .wallets-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-  }
-  
-  .finance-section {
+/* Media queries for larger screens */
+@media (min-width: 768px) {
+  .container {
     padding: 1rem;
-    margin-bottom: 1rem;
   }
   
-  .transaction-item {
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
+  .dashboard-header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .user-profile {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+  
+  .profile-picture, .profile-initial {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+  
+  .user-info {
+    text-align: left;
+  }
+  
+  .header-actions {
+    width: auto;
+    margin-top: 0;
+  }
+  
+  .finance-options {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .finance-card {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .dashboard-analytics {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

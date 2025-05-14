@@ -184,18 +184,24 @@ const Dashboard = () => {
           <div className="dashboard-transactions-list">
             {dashboardData.recentTransactions.slice(0, 3).map(transaction => (
               <div key={transaction.id} className="dashboard-transaction-item">
-                <div className={`transaction-icon ${transaction.type}`}>
-                  <span>{transaction.type === 'income' ? '↓' : '↑'}</span>
+                <div className={`transaction-icon-circle ${transaction.type}`}>
+                  {transaction.category === 'Food' && <span>🍔</span>}
+                  {transaction.category === 'Investments' && <span>📈</span>}
+                  {transaction.category === 'Healthcare' && <span>💊</span>}
+                  {!['Food', 'Investments', 'Healthcare'].includes(transaction.category || '') && 
+                    <span>{transaction.type === 'income' ? '↓' : '↑'}</span>}
                 </div>
-                <div className="transaction-details">
-                  <h4>{transaction.category || (transaction.type === 'income' ? 'Income' : 'Expense')}</h4>
-                  <p>{transaction.description}</p>
-                </div>
-                <div className="transaction-info">
-                  <p className={`transaction-amount ${transaction.type}`}>
-                    {transaction.type === 'expense' ? '-' : '+'}₱{formatCurrency(Math.abs(transaction.amount))}
-                  </p>
-                  <p className="transaction-date">{formatDate(transaction.date)}</p>
+                <div className="transaction-info-container">
+                  <div className="transaction-details">
+                    <h4>{transaction.category || (transaction.type === 'income' ? 'Income' : 'Expense')}</h4>
+                    <p className="transaction-description">{transaction.description}</p>
+                  </div>
+                  <div className="transaction-info">
+                    <p className={`transaction-amount ${transaction.type}`}>
+                      {transaction.type === 'expense' ? '-' : '+'}₱{formatCurrency(Math.abs(transaction.amount))}
+                    </p>
+                    <p className="transaction-date">{formatDate(transaction.date)}</p>
+                  </div>
                 </div>
               </div>
             ))}

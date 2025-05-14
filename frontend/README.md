@@ -94,3 +94,4 @@ export default tseslint.config({
   },
 })
 ```
+as

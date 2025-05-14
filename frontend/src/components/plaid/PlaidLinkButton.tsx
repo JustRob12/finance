@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
-import axios from 'axios';
+import api from '../../config/api';
 
 interface PlaidLinkButtonProps {
   onSuccess: (publicToken: string, metadata: any) => void;
@@ -18,7 +18,7 @@ const PlaidLinkButton = ({ onSuccess, onExit, className = '' }: PlaidLinkButtonP
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.post('/api/plaid/create-link-token');
+      const response = await api.post('/api/plaid/create-link-token');
       setLinkToken(response.data.link_token);
       setLoading(false);
     } catch (error) {

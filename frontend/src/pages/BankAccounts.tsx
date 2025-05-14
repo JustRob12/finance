@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 import PlaidLinkButton from '../components/plaid/PlaidLinkButton';
 
 interface BankAccount {
@@ -25,7 +25,7 @@ const BankAccounts = () => {
   const fetchBankAccounts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/plaid/accounts');
+      const response = await api.get('/api/plaid/accounts');
       setAccounts(response.data);
       setLoading(false);
     } catch (err) {
@@ -41,7 +41,7 @@ const BankAccounts = () => {
       setError(null);
       
       // Exchange public token for access token and store bank account data
-      await axios.post('/api/plaid/exchange-token', {
+      await api.post('/api/plaid/exchange-token', {
         public_token: publicToken,
         metadata: metadata
       });
@@ -68,7 +68,7 @@ const BankAccounts = () => {
     if (window.confirm('Are you sure you want to disconnect this bank account?')) {
       try {
         setLoading(true);
-        await axios.delete(`/api/plaid/accounts/${accountId}`);
+        await api.delete(`/api/plaid/accounts/${accountId}`);
         setAccounts(accounts.filter(account => account.id !== accountId));
         setSuccess('Bank account disconnected successfully');
         setLoading(false);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
 import AuthContext from '../context/AuthContext';
+import api from '../config/api';
 
 interface Wallet {
   _id: string;
@@ -60,7 +60,7 @@ const FinanceDashboard = () => {
 
   const fetchWallets = async () => {
     try {
-      const res = await axios.get('/api/wallet');
+      const res = await api.get('/api/wallet');
       setWallets(res.data);
     } catch (err) {
       console.error('Error fetching wallets:', err);
@@ -69,7 +69,7 @@ const FinanceDashboard = () => {
 
   const fetchBankAccounts = async () => {
     try {
-      const res = await axios.get('/api/plaid/accounts');
+      const res = await api.get('/api/plaid/accounts');
       setBankAccounts(res.data);
     } catch (err) {
       console.error('Error fetching bank accounts:', err);
@@ -81,7 +81,7 @@ const FinanceDashboard = () => {
   const fetchFinanceDashboardData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('/api/dashboard/finance-dashboard');
+      const res = await api.get('/api/dashboard/finance-dashboard');
       setDashboardData(res.data.dashboardData);
       setLoading(false);
     } catch (err) {
@@ -99,7 +99,7 @@ const FinanceDashboard = () => {
   };
 
   const calculateTotalBalance = () => {
-    return wallets.reduce((total, wallet) => total + wallet.balance, 0);
+    return Array.isArray(wallets) ? wallets.reduce((total, wallet) => total + wallet.balance, 0) : 0;
   };
 
   const editWallet = (id: string) => {
@@ -109,7 +109,7 @@ const FinanceDashboard = () => {
   const deleteWallet = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this wallet? All transactions will be lost.')) {
       try {
-        await axios.delete(`/api/wallet/${id}`);
+        await api.delete(`/api/wallet/${id}`);
         setWallets(wallets.filter(wallet => wallet._id !== id));
         // Refresh dashboard data after wallet deletion
         fetchFinanceDashboardData();
@@ -186,7 +186,7 @@ const FinanceDashboard = () => {
         <div className="total-balance-card">
           <div className="total-balance-header">
             <h3>Total Balance</h3>
-            <div className="wallet-count">{wallets.length} {wallets.length === 1 ? 'Wallet' : 'Wallets'}</div>
+            <div className="wallet-count">{Array.isArray(wallets) ? wallets.length : 0} {Array.isArray(wallets) && wallets.length === 1 ? 'Wallet' : 'Wallets'}</div>
           </div>
           <div className="total-balance-amount">
             ${formatCurrency(totalBalance)}

@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import api from '../config/api';
+import PlaidLinkButton from '../components/plaid/PlaidLinkButton';
 
 interface Wallet {
   _id: string;
@@ -11,17 +12,29 @@ interface Wallet {
   bankAccount?: string;
 }
 
+interface Transaction {
+  _id: string;
+  description: string;
+  amount: number;
+  date: string;
+  category?: string;
+  walletId: string;
+}
+
 const FinanceDashboard = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [wallets, setWallets] = useState<Wallet[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [linkSuccess, setLinkSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     // Fetch data whenever the component mounts or the location changes
     // This ensures fresh data when returning from WalletForm or TransactionForm
     fetchWallets();
+    fetchTransactions();
   }, [location.pathname]);
 
   const fetchWallets = async () => {
@@ -32,6 +45,15 @@ const FinanceDashboard = () => {
     } catch (err) {
       console.error('Error fetching wallets:', err);
       setLoading(false);
+    }
+  };
+
+  const fetchTransactions = async () => {
+    try {
+      const res = await api.get('/api/transactions');
+      setTransactions(res.data);
+    } catch (err) {
+      console.error('Error fetching transactions:', err);
     }
   };
 
@@ -61,6 +83,11 @@ const FinanceDashboard = () => {
     });
   };
 
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
   const getCurrencySymbol = (currency: string): string => {
     switch (currency) {
       case 'USD': return '$';
@@ -74,6 +101,30 @@ const FinanceDashboard = () => {
 
   const navigateToDashboard = () => {
     navigate('/dashboard');
+  };
+
+  const handlePlaidSuccess = async (publicToken: string, metadata: any) => {
+    try {
+      // Exchange public token for access token and store bank account data
+      await api.post('/api/plaid/exchange-token', {
+        public_token: publicToken,
+        metadata: metadata
+      });
+      
+      // Show success message
+      setLinkSuccess('Bank account connected successfully!');
+      
+      // Refresh the wallets to show updated data
+      fetchWallets();
+    } catch (err) {
+      console.error('Error linking bank account:', err);
+    }
+  };
+
+  const handlePlaidExit = (err: any, metadata: any) => {
+    if (err != null) {
+      console.error('Plaid Link exit with error:', err, metadata);
+    }
   };
 
   if (loading) {
@@ -111,6 +162,8 @@ const FinanceDashboard = () => {
         </div>
       </div>
       
+      {linkSuccess && <div className="success-message">{linkSuccess}</div>}
+      
       {/* Dashboard Summary Row */}
       <div className="dashboard-summary-row">
         {/* Total Balance Card */}
@@ -129,6 +182,28 @@ const FinanceDashboard = () => {
           </div>
           <div className="total-balance-footer">
             <p>Updated {new Date().toLocaleDateString()}</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Bank Account Link Section */}
+      <div className="finance-section bank-section">
+        <div className="section-header">
+          <div className="section-title-group">
+            <span className="section-icon">🏦</span>
+            <h3>Link Bank Account</h3>
+          </div>
+          <Link to="/bank-accounts" className="section-action-btn">Manage Accounts</Link>
+        </div>
+        
+        <div className="bank-link-container">
+          <div className="bank-link-info">
+            <p>Connect your bank accounts to automatically track transactions and balances</p>
+            <PlaidLinkButton 
+              onSuccess={handlePlaidSuccess}
+              onExit={handlePlaidExit}
+              className="bank-link-button"
+            />
           </div>
         </div>
       </div>
@@ -184,6 +259,53 @@ const FinanceDashboard = () => {
               <div className="add-icon">+</div>
               <p className="add-text">Add Wallet</p>
             </Link>
+          )}
+        </div>
+      </div>
+      
+      {/* Transactions Section */}
+      <div className="finance-section transactions-section">
+        <div className="section-header">
+          <div className="section-title-group">
+            <span className="section-icon">📊</span>
+            <h3>Recent Transactions</h3>
+          </div>
+          <Link to="/transactions" className="section-action-btn">View All</Link>
+        </div>
+        
+        <div className="transactions-container">
+          {transactions.length > 0 ? (
+            <div className="transactions-list">
+              {transactions.slice(0, 5).map(transaction => (
+                <div key={transaction._id} className="transaction-item">
+                  <div className={`transaction-icon-circle ${transaction.amount < 0 ? 'expense' : 'income'}`}>
+                    {transaction.category === 'Food' && <span>🍔</span>}
+                    {transaction.category === 'Investments' && <span>📈</span>}
+                    {transaction.category === 'Healthcare' && <span>💊</span>}
+                    {!['Food', 'Investments', 'Healthcare'].includes(transaction.category || '') && 
+                      <span>{transaction.amount < 0 ? '↑' : '↓'}</span>}
+                  </div>
+                  <div className="transaction-info-container">
+                    <div className="transaction-details">
+                      <h4>{transaction.category || (transaction.amount < 0 ? 'Expense' : 'Income')}</h4>
+                      <p className="transaction-description">{transaction.description}</p>
+                    </div>
+                    <div className="transaction-info">
+                      <p className={`transaction-amount ${transaction.amount < 0 ? 'expense' : 'income'}`}>
+                        {transaction.amount < 0 ? '-' : '+'}${formatCurrency(Math.abs(transaction.amount))}
+                      </p>
+                      <p className="transaction-date">{formatDate(transaction.date)}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="empty-transactions">
+              <div className="empty-icon">📊</div>
+              <p>No transactions yet</p>
+              <Link to="/transactions/new" className="add-first-transaction-btn">Add Your First Transaction</Link>
+            </div>
           )}
         </div>
       </div>

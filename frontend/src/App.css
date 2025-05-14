@@ -1829,7 +1829,7 @@ body {
   right: 0.5rem;
   display: flex;
   gap: 0.25rem;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.2s ease;
 }
 
@@ -1838,25 +1838,41 @@ body {
 }
 
 .wallet-action-btn {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: none;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .wallet-action-btn:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.wallet-action-btn.edit-btn {
+  background-color: rgba(67, 97, 238, 0.15);
+  color: #4361ee;
+}
+
+.wallet-action-btn.delete-btn {
+  background-color: rgba(244, 63, 94, 0.15);
+  color: #f43f5e;
+}
+
+.wallet-action-btn.edit-btn:hover {
+  background-color: rgba(67, 97, 238, 0.25);
 }
 
 .wallet-action-btn.delete-btn:hover {
-  background-color: rgba(244, 63, 94, 0.2);
+  background-color: rgba(244, 63, 94, 0.25);
 }
 
 .wallet-main {
@@ -2448,4 +2464,191 @@ body {
     max-width: 100% !important;
     padding: 0 !important;
   }
+}
+
+/* Bank Link Section Styles */
+.bank-section {
+  margin-bottom: 1.5rem;
+}
+
+.bank-link-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.bank-link-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.bank-link-info p {
+  margin-bottom: 1rem;
+  color: #555;
+  max-width: 500px;
+}
+
+.bank-link-button {
+  background-color: #4361ee;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bank-link-button:hover {
+  background-color: #3a56d4;
+}
+
+.bank-link-button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* Transaction Section Styles */
+.transactions-section {
+  margin-bottom: 1.5rem;
+}
+
+.transactions-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.transaction-icon-circle.income {
+  background-color: rgba(72, 187, 120, 0.2);
+  color: #48bb78;
+}
+
+.transaction-icon-circle.expense {
+  background-color: rgba(245, 101, 101, 0.2);
+  color: #f56565;
+}
+
+.transaction-info-container {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.transaction-details h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.transaction-description {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+.transaction-info {
+  text-align: right;
+}
+
+.transaction-amount {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.transaction-amount.income {
+  color: #48bb78;
+}
+
+.transaction-amount.expense {
+  color: #f56565;
+}
+
+.transaction-date {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: #a0aec0;
+}
+
+.empty-transactions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.empty-transactions .empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-transactions p {
+  margin: 0 0 1rem;
+  color: #718096;
+}
+
+.add-first-transaction-btn {
+  background-color: #4361ee;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.add-first-transaction-btn:hover {
+  background-color: #3a56d4;
+}
+
+.success-message {
+  background-color: #c6f6d5;
+  color: #2f855a;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin: 1rem 1rem 0;
+  text-align: center;
+  animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
 }

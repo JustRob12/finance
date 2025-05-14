@@ -178,67 +178,40 @@ const NewTransactionForm = ({ walletId, onClose, onSuccess }: TransactionFormPro
       {error && <div className="error-message">{error}</div>}
       {success && <div className="success-message">{success}</div>}
       
-      <form onSubmit={handleSubmit} className="transaction-form">
+      <form onSubmit={handleSubmit}>
         {/* Transaction Type */}
-        <div className="form-group">
-          <label htmlFor="transaction-type">Transaction Type *</label>
-          <div className="transaction-type-selector">
-            <div 
-              className={`type-option expense ${type === 'expense' ? 'active' : ''}`}
-              onClick={() => setType('expense')}
-            >
-              Expense
-            </div>
-            <div 
-              className={`type-option income ${type === 'income' ? 'active' : ''}`}
-              onClick={() => setType('income')}
-            >
-              Income
-            </div>
+        <div className="transaction-type-selector">
+          <div 
+            className={`type-option expense ${type === 'expense' ? 'active' : ''}`}
+            onClick={() => setType('expense')}
+          >
+            Expense
+          </div>
+          <div 
+            className={`type-option income ${type === 'income' ? 'active' : ''}`}
+            onClick={() => setType('income')}
+          >
+            Income
           </div>
         </div>
         
-        {/* Wallet Selection (only show if walletId is not provided) */}
-        {!walletId && (
-          <div className="form-group">
-            <label htmlFor="wallet">Wallet *</label>
-            <select
-              id="wallet"
-              value={selectedWallet}
-              onChange={(e) => setSelectedWallet(e.target.value)}
-              className="form-control"
-              required
-            >
-              <option value="">Select Wallet</option>
-              {wallets.map((wallet) => (
-                <option key={wallet._id} value={wallet._id}>
-                  {wallet.name} (${wallet.balance.toFixed(2)})
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-        
         {/* Amount Input */}
         <div className="form-group amount-input">
-          <label htmlFor="amount">Amount *</label>
-          <div className="input-with-icon">
-            <span className="currency-symbol">$</span>
-            <input
-              type="text"
-              id="amount"
-              className="form-control"
-              value={formatCurrency(amount)}
-              onChange={handleAmountChange}
-              placeholder="0.00"
-              required
-            />
-          </div>
+          <label htmlFor="amount">Amount</label>
+          <span className="currency-symbol">$</span>
+          <input
+            type="text"
+            id="amount"
+            value={formatCurrency(amount)}
+            onChange={handleAmountChange}
+            placeholder="0.00"
+            required
+          />
         </div>
         
         {/* Category Selection */}
         <div className="form-group">
-          <label>Category *</label>
+          <label>Category</label>
           <div className="category-options">
             {CATEGORIES[type].map((cat) => (
               <div 
@@ -259,25 +232,43 @@ const NewTransactionForm = ({ walletId, onClose, onSuccess }: TransactionFormPro
           <input
             type="text"
             id="description"
-            className="form-control"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Add notes about the transaction"
+            placeholder="Enter description"
           />
         </div>
         
         {/* Date */}
         <div className="form-group">
-          <label htmlFor="date">Date *</label>
+          <label htmlFor="date">Date</label>
           <input
             type="date"
             id="date"
-            className="form-control"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
           />
         </div>
+        
+        {/* Wallet Selection (only show if walletId is not provided) */}
+        {!walletId && (
+          <div className="form-group">
+            <label htmlFor="wallet">Wallet</label>
+            <select
+              id="wallet"
+              value={selectedWallet}
+              onChange={(e) => setSelectedWallet(e.target.value)}
+              required
+            >
+              <option value="">Select Wallet</option>
+              {wallets.map((wallet) => (
+                <option key={wallet._id} value={wallet._id}>
+                  {wallet.name} (${wallet.balance.toFixed(2)})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         
         {/* Submit Button */}
         <button 

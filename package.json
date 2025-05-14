@@ -5,12 +5,9 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "build": "cd frontend && npm ci && npm run build",
+    "build": "cd frontend && npm install && npm run build",
     "dev": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3"
   },
   "repository": {
     "type": "git",
@@ -30,6 +27,6 @@
   },
   "homepage": "https://github.com/JustRob12/finance#readme",
   "engines": {
-    "node": "18.x"
+    "node": ">=14.x"
   }
 }

@@ -8,7 +8,6 @@ import FinanceDashboard from './pages/FinanceDashboard';
 import TransactionList from './components/transaction/TransactionList';
 import WalletFormPage from './pages/WalletForm';
 import TransactionForm from './pages/TransactionForm';
-import NewTransaction from './pages/NewTransaction';
 import BankAccounts from './pages/BankAccounts';
 import { useState, useEffect } from 'react';
 import './App.css';
@@ -50,7 +49,6 @@ function App() {
               <Route path="/wallet/new" element={<WalletFormPage />} />
               <Route path="/wallet/edit/:walletId" element={<WalletFormPage />} />
               <Route path="/transactions/new" element={<TransactionForm />} />
-              <Route path="/new-transaction" element={<NewTransaction />} />
               <Route path="/bank-accounts" element={<BankAccounts />} />
             </Route>
             {/* Catch-all route for 404 errors */}

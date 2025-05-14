@@ -1,13 +1,14 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "frontend/dist",
-  "framework": "vite",
   "builds": [
     {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
       "src": "server/index.js",
-      "use": "@vercel/node",
-      "config": { "runtime": "nodejs18.x" }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -17,7 +18,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "frontend/dist/$1"
     }
   ]
 } 

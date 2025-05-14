@@ -132,6 +132,47 @@ const Dashboard = () => {
         <div className="balance-date">As of {new Date().toLocaleDateString()}</div>
       </div>
       
+      {/* Summary Cards */}
+      <div className="summary-cards">
+        <div className="summary-card">
+          <div className="card-value">{Array.isArray(wallets) ? wallets.length : 0}</div>
+          <div className="card-label">Wallets</div>
+        </div>
+        
+        <div className="summary-card">
+          <div className="card-value">
+            {formatCurrency(dashboardData?.analytics?.income || 0)}
+          </div>
+          <div className="card-label">Income</div>
+        </div>
+        
+        <div className="summary-card">
+          <div className="card-value negative">
+            {formatCurrency(dashboardData?.analytics?.expenses || 0)}
+          </div>
+          <div className="card-label">Expenses</div>
+        </div>
+      </div>
+      
+      {/* Monthly Summary */}
+      <div className="monthly-summary">
+        <h3>Monthly Summary</h3>
+        
+        <div className="summary-stats">
+          <div className="stat-item income">
+            <span className="stat-icon">↓</span>
+            <span className="stat-label">Income</span>
+            <span className="stat-value">₱{formatCurrency(dashboardData?.analytics?.income || 0)}</span>
+          </div>
+          
+          <div className="stat-item expenses">
+            <span className="stat-icon">↑</span>
+            <span className="stat-label">Expenses</span>
+            <span className="stat-value">₱{formatCurrency(dashboardData?.analytics?.expenses || 0)}</span>
+          </div>
+        </div>
+      </div>
+      
       {/* Recent Transactions */}
       <div className="dashboard-recent-transactions">
         <div className="section-header">

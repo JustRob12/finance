@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase';
 import AuthContext from '../context/AuthContext';
 
@@ -8,25 +8,29 @@ const GoogleSignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const { user } = result;
+      // Create a new instance of GoogleAuthProvider for each sign-in attempt
+      const provider = new GoogleAuthProvider();
+      provider.addScope('profile');
+      provider.addScope('email');
       
-      console.log('Firebase auth result:', result);
+      const result = await signInWithPopup(auth, provider);
       
-      // Get user details with fallbacks for all properties
+      // Extract only the essential user data we need
       const userData = {
-        id: user.uid || '',
-        name: user.displayName || 'User',
-        email: user.email || '',
-        photoURL: user.photoURL || ''
+        id: result.user?.uid || '',
+        name: result.user?.displayName || 'User',
+        email: result.user?.email || '',
+        photoURL: result.user?.photoURL || ''
       };
       
-      console.log('Sending user data to backend:', userData);
+      console.log('Extracted user data:', userData);
       
       // Call the context method to handle authentication
       await loginWithGoogle(userData);
     } catch (error) {
       console.error('Google sign-in error:', error);
+      // Show a user-friendly error message
+      alert('Google sign-in failed. Please try again or use email login.');
     }
   };
 

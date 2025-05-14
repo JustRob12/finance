@@ -11,89 +11,26 @@ interface Wallet {
   bankAccount?: string;
 }
 
-interface Transaction {
-  id: number | string;
-  description: string;
-  amount: number;
-  date: string;
-  type: string;
-  category: string;
-}
-
-interface ExpenseCategory {
-  category: string;
-  total: number;
-  percentage: number;
-}
-
-interface FinanceDashboardData {
-  totalBalance: number;
-  wallets: Wallet[];
-  recentTransactions: Transaction[];
-  expensesByCategory: ExpenseCategory[];
-}
-
-interface BankAccount {
-  id: string;
-  bankName: string;
-  accountName: string;
-  accountNumber: string; 
-  accountType: string;
-}
-
 const FinanceDashboard = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState<FinanceDashboardData | null>(null);
   const [wallets, setWallets] = useState<Wallet[]>([]);
-  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 
   useEffect(() => {
     // Fetch data whenever the component mounts or the location changes
     // This ensures fresh data when returning from WalletForm or TransactionForm
     fetchWallets();
-    fetchBankAccounts();
-    fetchFinanceDashboardData();
   }, [location.pathname]);
 
   const fetchWallets = async () => {
     try {
       const res = await api.get('/api/wallet');
       setWallets(res.data);
-    } catch (err) {
-      console.error('Error fetching wallets:', err);
-    }
-  };
-
-  const fetchBankAccounts = async () => {
-    try {
-      const res = await api.get('/api/plaid/accounts');
-      setBankAccounts(res.data);
-    } catch (err) {
-      console.error('Error fetching bank accounts:', err);
-      // Set to empty array if error occurs
-      setBankAccounts([]);
-    }
-  };
-
-  const fetchFinanceDashboardData = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get('/api/dashboard/finance-dashboard');
-      setDashboardData(res.data.dashboardData);
       setLoading(false);
     } catch (err) {
-      console.error('Error fetching finance dashboard data:', err);
-      
-      // Create empty dashboard data structure without any mock data
-      setDashboardData({
-        totalBalance: calculateTotalBalance(),
-        wallets: wallets,
-        recentTransactions: [],
-        expensesByCategory: []
-      });
+      console.error('Error fetching wallets:', err);
       setLoading(false);
     }
   };
@@ -111,8 +48,6 @@ const FinanceDashboard = () => {
       try {
         await api.delete(`/api/wallet/${id}`);
         setWallets(wallets.filter(wallet => wallet._id !== id));
-        // Refresh dashboard data after wallet deletion
-        fetchFinanceDashboardData();
       } catch (err) {
         console.error('Error deleting wallet:', err);
       }
@@ -261,28 +196,4 @@ const FinanceDashboard = () => {
   );
 };
 
-// Helper function for category colors
-const getCategoryColor = (category: string): string => {
-  const colors: Record<string, string> = {
-    Food: '#FF9800',
-    Shopping: '#F44336',
-    Transport: '#2196F3',
-    Entertainment: '#9C27B0',
-    Housing: '#795548',
-    Utilities: '#607D8B',
-    Healthcare: '#E91E63',
-    Personal: '#00BCD4',
-    Education: '#3F51B5',
-    Travel: '#009688',
-    Uncategorized: '#9E9E9E'
-  };
-  
-  return colors[category] || '#607D8B';
-};
-
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
-};
-
-export default FinanceDashboard; 
+export default FinanceDashboard;

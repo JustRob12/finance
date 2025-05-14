@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth, googleProvider } from '../config/firebase';
+import { auth } from '../config/firebase';
 import AuthContext from '../context/AuthContext';
 
 const GoogleSignIn = () => {

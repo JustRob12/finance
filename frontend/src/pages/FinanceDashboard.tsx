@@ -412,7 +412,7 @@ const FinanceDashboard = () => {
       </div>
       
       {/* Add Transaction Button */}
-      <Link to="/transactions/new" className="add-transaction-button">
+      <Link to="/new-transaction" className="add-transaction-button">
         <span>+</span>
       </Link>
     </div>

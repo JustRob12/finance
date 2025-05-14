@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
 import AuthContext from '../context/AuthContext';
+import api from '../config/api';
 
 interface Transaction {
   id: number | string;
@@ -40,11 +40,11 @@ const Dashboard = () => {
     try {
       setLoading(true);
       // Fetch dashboard data from the API
-      const res = await axios.get('/api/dashboard');
+      const res = await api.get('/api/dashboard');
       setDashboardData(res.data.dashboardData);
       
       // Fetch wallets
-      const walletsRes = await axios.get('/api/wallet');
+      const walletsRes = await api.get('/api/wallet');
       setWallets(walletsRes.data || []);
       
       setLoading(false);
@@ -92,8 +92,10 @@ const Dashboard = () => {
     );
   }
 
-  // Calculate total balance from wallets
-  const totalWalletBalance = wallets.reduce((total, wallet) => total + wallet.balance, 0);
+  // Calculate total balance from wallets, ensuring wallets is an array first
+  const totalWalletBalance = Array.isArray(wallets) 
+    ? wallets.reduce((total, wallet) => total + wallet.balance, 0) 
+    : 0;
 
   return (
     <div className="mobile-dashboard">
@@ -133,20 +135,20 @@ const Dashboard = () => {
       {/* Summary Cards */}
       <div className="summary-cards">
         <div className="summary-card">
-          <div className="card-value">{wallets.length}</div>
+          <div className="card-value">{Array.isArray(wallets) ? wallets.length : 0}</div>
           <div className="card-label">Wallets</div>
         </div>
         
         <div className="summary-card">
           <div className="card-value">
-            {formatCurrency(dashboardData?.analytics.income || 0)}
+            {formatCurrency(dashboardData?.analytics?.income || 0)}
           </div>
           <div className="card-label">Income</div>
         </div>
         
         <div className="summary-card">
           <div className="card-value negative">
-            {formatCurrency(dashboardData?.analytics.expenses || 0)}
+            {formatCurrency(dashboardData?.analytics?.expenses || 0)}
           </div>
           <div className="card-label">Expenses</div>
         </div>
@@ -160,13 +162,13 @@ const Dashboard = () => {
           <div className="stat-item income">
             <span className="stat-icon">↓</span>
             <span className="stat-label">Income</span>
-            <span className="stat-value">₱{formatCurrency(dashboardData?.analytics.income || 0)}</span>
+            <span className="stat-value">₱{formatCurrency(dashboardData?.analytics?.income || 0)}</span>
           </div>
           
           <div className="stat-item expenses">
             <span className="stat-icon">↑</span>
             <span className="stat-label">Expenses</span>
-            <span className="stat-value">₱{formatCurrency(dashboardData?.analytics.expenses || 0)}</span>
+            <span className="stat-value">₱{formatCurrency(dashboardData?.analytics?.expenses || 0)}</span>
           </div>
         </div>
       </div>

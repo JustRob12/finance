@@ -156,14 +156,9 @@ const FinanceDashboard = () => {
     <div className="finance-dashboard">
       {/* Header */}
       <div className="finance-header">
-        <h2>Finance</h2>
-      </div>
-      
-      {/* Dashboard Title & Profile */}
-      <div className="finance-dashboard-header">
         <div className="finance-title">
           <h2>Finance Dashboard</h2>
-          <p>Welcome back, {user?.name || 'Roberto M. Prisoris Jr.'}</p>
+          <p className="finance-subtitle">Welcome back, {user?.name || 'Roberto M. Prisoris Jr.'}</p>
         </div>
         
         <div className="profile-area" onClick={navigateToDashboard}>
@@ -181,12 +176,18 @@ const FinanceDashboard = () => {
         </div>
       </div>
       
-      {/* Total Balance Card */}
-      <div className="finance-section total-balance-container">
-        <div className="total-balance-card">
+      {/* Dashboard Summary Row */}
+      <div className="dashboard-summary-row">
+        {/* Total Balance Card */}
+        <div className="finance-card total-balance-card">
           <div className="total-balance-header">
-            <h3>Total Balance</h3>
-            <div className="wallet-count">{Array.isArray(wallets) ? wallets.length : 0} {Array.isArray(wallets) && wallets.length === 1 ? 'Wallet' : 'Wallets'}</div>
+            <div className="card-icon total-balance-icon">
+              <span role="img" aria-label="wallet">💰</span>
+            </div>
+            <div>
+              <h3>Total Balance</h3>
+              <div className="wallet-count">{Array.isArray(wallets) ? wallets.length : 0} {Array.isArray(wallets) && wallets.length === 1 ? 'Wallet' : 'Wallets'}</div>
+            </div>
           </div>
           <div className="total-balance-amount">
             ${formatCurrency(totalBalance)}
@@ -195,45 +196,90 @@ const FinanceDashboard = () => {
             <p>Updated {new Date().toLocaleDateString()}</p>
           </div>
         </div>
+        
+        {/* Quick Stats Cards */}
+        <div className="finance-card quick-stats-card">
+          <div className="stats-header">
+            <div className="card-icon stats-icon">
+              <span role="img" aria-label="stats">📊</span>
+            </div>
+            <h3>Stats</h3>
+          </div>
+          <div className="stats-content">
+            <div className="stats-item">
+              <span className="stats-label">Wallets</span>
+              <span className="stats-value">{Array.isArray(wallets) ? wallets.length : 0}</span>
+            </div>
+            <div className="stats-item">
+              <span className="stats-label">Accounts</span>
+              <span className="stats-value">{bankAccounts.length}</span>
+            </div>
+            <div className="stats-item">
+              <span className="stats-label">Transactions</span>
+              <span className="stats-value">{dashboardData?.recentTransactions?.length || 0}</span>
+            </div>
+          </div>
+        </div>
       </div>
       
       {/* Wallets Section */}
-      <div className="finance-section">
+      <div className="finance-section wallets-section">
         <div className="section-header">
-          <h3>My Wallets</h3>
+          <div className="section-title-group">
+            <span className="section-icon">💼</span>
+            <h3>My Wallets</h3>
+          </div>
+          <Link to="/wallet/new" className="section-action-btn">+ Add Wallet</Link>
         </div>
         
         <div className="wallets-container">
-          {wallets.map(wallet => (
+          {wallets.length > 0 ? wallets.map(wallet => (
             <div key={wallet._id} className="wallet-card">
               <div className="wallet-actions">
-                <button className="wallet-edit-btn" onClick={(e) => { e.stopPropagation(); editWallet(wallet._id); }}>✏️</button>
-                <button className="wallet-delete-btn" onClick={(e) => { e.stopPropagation(); deleteWallet(wallet._id); }}>🗑️</button>
+                <button className="wallet-action-btn edit-btn" onClick={(e) => { e.stopPropagation(); editWallet(wallet._id); }}>
+                  <span className="action-icon">✏️</span>
+                </button>
+                <button className="wallet-action-btn delete-btn" onClick={(e) => { e.stopPropagation(); deleteWallet(wallet._id); }}>
+                  <span className="action-icon">🗑️</span>
+                </button>
               </div>
               <div className="wallet-main" onClick={() => navigate(`/wallet/${wallet._id}`)}>
                 <div className="wallet-icon">
-                  <span role="img" aria-label="credit card" className="wallet-icon-symbol">💼</span>
+                  <span role="img" aria-label="wallet" className="wallet-icon-symbol">💼</span>
                 </div>
-                <p className="wallet-name">{wallet.name}</p>
-                <p className="wallet-balance">
-                  {getCurrencySymbol(wallet.currency)}{formatCurrency(wallet.balance)}
-                </p>
+                <div className="wallet-details">
+                  <p className="wallet-name">{wallet.name}</p>
+                  <p className="wallet-balance">
+                    {getCurrencySymbol(wallet.currency)}{formatCurrency(wallet.balance)}
+                  </p>
+                </div>
               </div>
             </div>
-          ))}
+          )) : (
+            <div className="empty-wallets">
+              <div className="empty-icon">💼</div>
+              <p>No wallets yet</p>
+              <Link to="/wallet/new" className="add-first-wallet-btn">Add Your First Wallet</Link>
+            </div>
+          )}
           
-          <Link to="/wallet/new" className="add-wallet-card">
-            <div className="add-icon">+</div>
-            <p className="add-text">Add Wallet</p>
-          </Link>
+          {wallets.length > 0 && (
+            <Link to="/wallet/new" className="add-wallet-card">
+              <div className="add-icon">+</div>
+              <p className="add-text">Add Wallet</p>
+            </Link>
+          )}
         </div>
       </div>
       
       {/* Linked Bank Accounts */}
-      <div className="finance-section">
+      <div className="finance-section bank-accounts-section">
         <div className="section-header">
-          <h3>Linked Bank Accounts</h3>
-          <Link to="/bank-accounts" className="manage-link">Manage</Link>
+          <div className="section-title-group">
+            <span className="section-icon">🏦</span>
+            <h3>Linked Bank Accounts</h3>
+          </div>
+          <Link to="/bank-accounts" className="section-action-btn">Manage</Link>
         </div>
         
         {bankAccounts.length === 0 ? (
@@ -245,7 +291,9 @@ const FinanceDashboard = () => {
               <h4>Connect Bank Accounts</h4>
               <p>Link your accounts to automatically track transactions</p>
             </div>
-            <div className="bank-arrow">›</div>
+            <div className="bank-arrow">
+              <span className="arrow-icon">›</span>
+            </div>
           </div>
         ) : (
           <div className="bank-accounts-list">
@@ -258,7 +306,9 @@ const FinanceDashboard = () => {
                   <h4>{account.bankName}</h4>
                   <p>{account.accountName} •••• {account.accountNumber}</p>
                 </div>
-                <div className="bank-arrow">›</div>
+                <div className="bank-arrow">
+                  <span className="arrow-icon">›</span>
+                </div>
               </div>
             ))}
             {bankAccounts.length > 2 && (
@@ -271,19 +321,24 @@ const FinanceDashboard = () => {
       </div>
       
       {/* Expense Breakdown */}
-      {dashboardData?.expensesByCategory && dashboardData.expensesByCategory.length > 0 ? (
-        <div className="finance-section">
-          <div className="section-header">
+      <div className="finance-section expense-section">
+        <div className="section-header">
+          <div className="section-title-group">
+            <span className="section-icon">📊</span>
             <h3>Expense Breakdown</h3>
           </div>
-          
+        </div>
+        
+        {dashboardData?.expensesByCategory && dashboardData.expensesByCategory.length > 0 ? (
           <div className="expense-breakdown">
             {dashboardData.expensesByCategory.map((category, index) => (
               <div key={index} className="expense-category">
                 <div className="expense-category-header">
-                  <div className="expense-dot" style={{ backgroundColor: getCategoryColor(category.category) }}></div>
-                  <span className="expense-category-name">{category.category}</span>
-                  <span className="expense-amount">{formatCurrency(category.total)}</span>
+                  <div className="expense-category-label">
+                    <div className="expense-dot" style={{ backgroundColor: getCategoryColor(category.category) }}></div>
+                    <span className="expense-category-name">{category.category}</span>
+                  </div>
+                  <span className="expense-amount">${formatCurrency(category.total)}</span>
                 </div>
                 <div className="expense-bar-container">
                   <div 
@@ -293,46 +348,56 @@ const FinanceDashboard = () => {
                       backgroundColor: getCategoryColor(category.category)
                     }}
                   ></div>
+                  <span className="expense-percentage">{Math.round(category.percentage)}%</span>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      ) : (
-        <div className="finance-section">
-          <div className="section-header">
-            <h3>Expense Breakdown</h3>
-          </div>
+        ) : (
           <div className="empty-expenses">
             <div className="empty-icon">📈</div>
             <p>No expense data available yet</p>
             <p className="empty-subtext">Add transactions to see your expense breakdown</p>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       
       {/* Recent Transactions */}
-      <div className="finance-section">
+      <div className="finance-section transactions-section">
         <div className="section-header">
-          <h3>Recent Transactions</h3>
-          <Link to="/transactions" className="view-all-link">View All</Link>
+          <div className="section-title-group">
+            <span className="section-icon">📝</span>
+            <h3>Recent Transactions</h3>
+          </div>
+          <Link to="/transactions" className="section-action-btn">View All</Link>
         </div>
         
         {dashboardData?.recentTransactions && dashboardData.recentTransactions.length > 0 ? (
           <div className="transactions-list">
             {dashboardData.recentTransactions.map(transaction => (
-              <div key={transaction.id} className="transaction-item">
-                <div className={`transaction-icon ${transaction.type}`}>
-                  <span>{transaction.type === 'income' ? '↓' : '↑'}</span>
+              <div key={transaction.id} className="finance-transaction-item">
+                <div className={`transaction-icon-circle ${transaction.type}`}>
+                  {transaction.category === 'Food' && <span>🍔</span>}
+                  {transaction.category === 'Shopping' && <span>🛍️</span>}
+                  {transaction.category === 'Transport' && <span>🚗</span>}
+                  {transaction.category === 'Entertainment' && <span>🎬</span>}
+                  {transaction.category === 'Housing' && <span>🏠</span>}
+                  {transaction.category === 'Utilities' && <span>💡</span>}
+                  {transaction.category === 'Healthcare' && <span>💊</span>}
+                  {transaction.category === 'Education' && <span>📚</span>}
+                  {!['Food', 'Shopping', 'Transport', 'Entertainment', 'Housing', 'Utilities', 'Healthcare', 'Education'].includes(transaction.category) && 
+                    <span>{transaction.type === 'income' ? '↓' : '↑'}</span>}
                 </div>
-                <div className="transaction-details">
-                  <h4>{transaction.category}</h4>
-                  <p>{transaction.description}</p>
-                  <p className="transaction-date">{formatDate(transaction.date)}</p>
+                <div className="transaction-info-container">
+                  <div className="transaction-details">
+                    <h4>{transaction.category}</h4>
+                    <p className="transaction-description">{transaction.description}</p>
+                    <p className="transaction-date">{formatDate(transaction.date)}</p>
+                  </div>
+                  <p className={`transaction-amount ${transaction.type}`}>
+                    {transaction.type === 'expense' ? '-' : '+'}{formatCurrency(Math.abs(transaction.amount))}
+                  </p>
                 </div>
-                <p className={`transaction-amount ${transaction.type}`}>
-                  {transaction.type === 'expense' ? '-' : '+'}{formatCurrency(Math.abs(transaction.amount))}
-                </p>
               </div>
             ))}
           </div>

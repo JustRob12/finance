@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 // Enhanced CORS for Vercel frontend and Render backend
 const corsOptions = {
-  origin: ['https://finance-pink.vercel.app', 'http://localhost:5173'],
+  origin: ['https://finance-pink.vercel.app', 'https://finance-72ra.vercel.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
   credentials: true
@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
   res.json({
     message: 'Finance API is running',
     documentation: 'API available at /api routes',
-    frontendUrl: 'https://finance-pink.vercel.app'
+    frontendUrl: 'https://finance-72ra.vercel.app'
   });
 });
 

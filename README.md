@@ -8,7 +8,7 @@ A full-stack financial tracking application with wallet management and transacti
   - JWT-based authentication
   - Google OAuth integration using Firebase
   - Secure password handling
-
+nakoo
 - **Wallet Management**
   - Create and manage multiple wallets
   - Track wallet balances

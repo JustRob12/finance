@@ -103,11 +103,13 @@ router.post('/login', async (req, res) => {
 router.post('/google', async (req, res) => {
   const { userData } = req.body;
   
-  if (!userData) {
-    return res.status(400).json({ message: 'No user data provided' });
+  if (!userData || !userData.id) {
+    return res.status(400).json({ message: 'Invalid user data provided' });
   }
   
   try {
+    console.log('Received Google user data:', JSON.stringify(userData));
+    
     // Check if Google user already exists
     let googleUser = await GoogleUser.findOne({ googleId: userData.id });
     
@@ -119,9 +121,9 @@ router.post('/google', async (req, res) => {
       // Create a new Google user
       googleUser = new GoogleUser({
         googleId: userData.id,
-        name: userData.name,
-        email: userData.email,
-        photoURL: userData.photoURL
+        name: userData.name || 'Google User',
+        email: userData.email || '',
+        photoURL: userData.photoURL || ''
       });
       
       await googleUser.save();
@@ -136,10 +138,10 @@ router.post('/google', async (req, res) => {
       const randomPassword = '!GoogleAuth!' + Math.random().toString(36).slice(-8);
       
       user = new User({
-        name: userData.name,
-        email: userData.email,
+        name: userData.name || 'Google User',
+        email: userData.email || '',
         password: randomPassword,
-        photoURL: userData.photoURL
+        photoURL: userData.photoURL || ''
       });
       
       // Hash password

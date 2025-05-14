@@ -179,7 +179,7 @@ const FinanceDashboard = () => {
       {/* Dashboard Summary Row */}
       <div className="dashboard-summary-row">
         {/* Total Balance Card */}
-        <div className="finance-card total-balance-card">
+        <div className="total-balance-card finance-card">
           <div className="total-balance-header">
             <div className="card-icon total-balance-icon">
               <span role="img" aria-label="wallet">💰</span>
@@ -198,7 +198,7 @@ const FinanceDashboard = () => {
         </div>
         
         {/* Quick Stats Cards */}
-        <div className="finance-card quick-stats-card">
+        <div className="quick-stats-card finance-card">
           <div className="stats-header">
             <div className="card-icon stats-icon">
               <span role="img" aria-label="stats">📊</span>
@@ -326,15 +326,15 @@ const FinanceDashboard = () => {
       </div>
       
       {/* Expense Breakdown */}
-      <div className="finance-section expense-section">
-        <div className="section-header">
-          <div className="section-title-group">
-            <span className="section-icon">📊</span>
-            <h3>Expense Breakdown</h3>
+      {dashboardData?.expensesByCategory && dashboardData.expensesByCategory.length > 0 && (
+        <div className="finance-section expense-section">
+          <div className="section-header">
+            <div className="section-title-group">
+              <span className="section-icon">📊</span>
+              <h3>Expense Breakdown</h3>
+            </div>
           </div>
-        </div>
-        
-        {dashboardData?.expensesByCategory && dashboardData.expensesByCategory.length > 0 ? (
+          
           <div className="expense-breakdown">
             {dashboardData.expensesByCategory.map((category, index) => (
               <div key={index} className="expense-category">
@@ -360,14 +360,8 @@ const FinanceDashboard = () => {
               </div>
             ))}
           </div>
-        ) : (
-          <div className="empty-expenses">
-            <div className="empty-icon">📈</div>
-            <p>No expense data available yet</p>
-            <p className="empty-subtext">Add transactions to see your expense breakdown</p>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
       
       {/* Recent Transactions */}
       <div className="finance-section transactions-section">

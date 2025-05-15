@@ -21,7 +21,8 @@ const getCurrencySymbol = (currency: string): string => {
     case 'EUR': return '€';
     case 'GBP': return '£';
     case 'JPY': return '¥';
-    default: return '$';
+    case 'PHP': return '₱';
+    default: return '₱';
   }
 };
 

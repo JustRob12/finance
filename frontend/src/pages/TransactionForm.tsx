@@ -192,7 +192,7 @@ const TransactionForm = () => {
       case 'GBP': return '£';
       case 'JPY': return '¥';
       case 'PHP': return '₱';
-      default: return '$';
+      default: return '₱';
     }
   };
   

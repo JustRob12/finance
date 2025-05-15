@@ -198,7 +198,7 @@ const NewTransactionForm = ({ walletId, onClose, onSuccess }: TransactionFormPro
         {/* Amount Input */}
         <div className="form-group amount-input">
           <label htmlFor="amount">Amount</label>
-          <span className="currency-symbol">$</span>
+          <span className="currency-symbol">₱</span>
           <input
             type="text"
             id="amount"

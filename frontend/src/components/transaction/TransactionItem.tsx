@@ -61,7 +61,7 @@ const TransactionItem = ({ transaction, onEdit, onDelete }: TransactionItemProps
         </div>
         <div className="transaction-amount-container">
           <span className={`transaction-amount ${isIncome ? 'positive' : 'negative'}`}>
-            {isIncome ? '+' : '-'} ${Math.abs(amount).toFixed(2)}
+            {isIncome ? '+' : '-'} ₱{Math.abs(amount).toFixed(2)}
           </span>
           <div className="transaction-actions">
             <button className="action-btn edit" onClick={onEdit}>

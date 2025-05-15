@@ -160,7 +160,7 @@ const TransactionList = () => {
         <div className="wallet-info">
           <h2>{wallet.name}</h2>
           <p className={wallet.balance < 0 ? 'negative' : 'positive'}>
-            Balance: ${Math.abs(wallet.balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            Balance: ₱{Math.abs(wallet.balance).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
         </div>
         <button 

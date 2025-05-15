@@ -17,7 +17,7 @@ const WalletForm = ({ wallet, onSubmit, onCancel }: WalletFormProps) => {
   const [formData, setFormData] = useState({
     name: '',
     balance: 0,
-    currency: 'USD'
+    currency: 'PHP'
   });
 
   const { name, balance, currency } = formData;
@@ -110,6 +110,7 @@ const WalletForm = ({ wallet, onSubmit, onCancel }: WalletFormProps) => {
               onChange={onChange}
               className="wallet-select"
             >
+              <option value="PHP">PHP (₱)</option>
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
               <option value="GBP">GBP (£)</option>

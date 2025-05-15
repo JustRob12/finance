@@ -95,7 +95,7 @@ const FinanceDashboard = () => {
       case 'GBP': return '£';
       case 'JPY': return '¥';
       case 'PHP': return '₱';
-      default: return '$';
+      default: return '₱';
     }
   };
 
@@ -178,7 +178,7 @@ const FinanceDashboard = () => {
             </div>
           </div>
           <div className="total-balance-amount">
-            ${formatCurrency(totalBalance)}
+            ₱{formatCurrency(totalBalance)}
           </div>
           <div className="total-balance-footer">
             <p>Updated {new Date().toLocaleDateString()}</p>
@@ -292,7 +292,7 @@ const FinanceDashboard = () => {
                     </div>
                     <div className="transaction-info">
                       <p className={`transaction-amount ${transaction.amount < 0 ? 'expense' : 'income'}`}>
-                        {transaction.amount < 0 ? '-' : '+'}${formatCurrency(Math.abs(transaction.amount))}
+                        {transaction.amount < 0 ? '-' : '+'}₱{formatCurrency(Math.abs(transaction.amount))}
                       </p>
                       <p className="transaction-date">{formatDate(transaction.date)}</p>
                     </div>

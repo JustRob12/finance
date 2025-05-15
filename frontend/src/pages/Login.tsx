@@ -31,7 +31,6 @@ const Login = () => {
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-header">
-          <div className="app-logo">💰</div>
           <h1 className="app-title">Financial Tracker</h1>
           <p className="auth-subtitle">Sign in to manage your finances</p>
         </div>
@@ -39,18 +38,15 @@ const Login = () => {
         <form onSubmit={onSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
-            <div className="input-with-icon">
-              <i className="input-icon">✉️</i>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={onChange}
-                placeholder="Enter your email"
-                required
-              />
-            </div>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={onChange}
+              placeholder="Enter your email"
+              required
+            />
           </div>
           
           <div className="form-group">
@@ -58,18 +54,15 @@ const Login = () => {
               <label htmlFor="password">Password</label>
               <Link to="/forgot-password" className="forgot-password">Forgot password?</Link>
             </div>
-            <div className="input-with-icon">
-              <i className="input-icon">🔒</i>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={onChange}
-                placeholder="Enter your password"
-                required
-              />
-            </div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={onChange}
+              placeholder="Enter your password"
+              required
+            />
           </div>
           
           {error && <div className="auth-error">{error}</div>}

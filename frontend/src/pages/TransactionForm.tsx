@@ -126,12 +126,8 @@ const TransactionForm = () => {
         date: new Date(formData.date).toISOString()
       };
       
-      console.log('Sending transaction data:', transactionData);
-      
       // Send the data to the API
       const response = await api.post('/api/transaction', transactionData);
-      
-      console.log('Transaction response:', response.data);
       
       setSuccess(true);
       setError(null);
@@ -156,11 +152,6 @@ const TransactionForm = () => {
       
       // Detailed error handling
       if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error('Error response data:', err.response.data);
-        console.error('Error response status:', err.response.status);
-        
         if (err.response.data && err.response.data.msg) {
           setError(err.response.data.msg);
         } else if (err.response.status === 401) {
@@ -169,11 +160,8 @@ const TransactionForm = () => {
           setError(`Request failed: ${err.response.status} - ${err.response.statusText}`);
         }
       } else if (err.request) {
-        // The request was made but no response was received
-        console.error('Error request:', err.request);
         setError('No response received from server. Please check your connection.');
       } else {
-        // Something happened in setting up the request that triggered an Error
         setError('Error preparing request: ' + err.message);
       }
       
@@ -226,27 +214,27 @@ const TransactionForm = () => {
           </div>
         )}
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="simple-form">
           <div className="form-group">
             <label htmlFor="type">Transaction Type *</label>
-            <div className="transaction-types">
+            <div className="transaction-type-tabs">
               <button
                 type="button"
-                className={`type-btn ${formData.type === 'income' ? 'active' : ''}`}
+                className={`type-tab ${formData.type === 'income' ? 'active' : ''}`}
                 onClick={() => handleTypeChange('income')}
               >
                 Income
               </button>
               <button
                 type="button"
-                className={`type-btn ${formData.type === 'expense' ? 'active' : ''}`}
+                className={`type-tab ${formData.type === 'expense' ? 'active' : ''}`}
                 onClick={() => handleTypeChange('expense')}
               >
                 Expense
               </button>
               <button
                 type="button"
-                className={`type-btn ${formData.type === 'transfer' ? 'active' : ''}`}
+                className={`type-tab ${formData.type === 'transfer' ? 'active' : ''}`}
                 onClick={() => handleTypeChange('transfer')}
               >
                 Transfer
@@ -263,6 +251,7 @@ const TransactionForm = () => {
               onChange={handleChange}
               required
               disabled={loading || wallets.length === 0}
+              className="form-select"
             >
               {wallets.length === 0 ? (
                 <option value="">No wallets available</option>
@@ -289,6 +278,7 @@ const TransactionForm = () => {
               min="0"
               required
               disabled={loading}
+              className="form-input"
             />
           </div>
           
@@ -301,6 +291,7 @@ const TransactionForm = () => {
               onChange={handleChange}
               required
               disabled={loading}
+              className="form-select"
             >
               {CATEGORIES[formData.type].map(category => (
                 <option key={category} value={category}>
@@ -319,7 +310,8 @@ const TransactionForm = () => {
               onChange={handleChange}
               placeholder="Add notes about the transaction"
               disabled={loading}
-              rows={4}
+              rows={3}
+              className="form-textarea"
             />
           </div>
           
@@ -334,6 +326,7 @@ const TransactionForm = () => {
               max={today}
               required
               disabled={loading}
+              className="form-input"
             />
           </div>
           
@@ -341,10 +334,10 @@ const TransactionForm = () => {
           
           <button 
             type="submit" 
-            className="add-transaction-button-form"
+            className="simple-button"
             disabled={loading || !formData.walletId || !formData.amount}
           >
-            {loading ? 'Saving...' : 'Add Transaction'}
+            Add Transaction
           </button>
         </form>
       </div>

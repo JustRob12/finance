@@ -41,7 +41,6 @@ const Register = () => {
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-header">
-          <div className="app-logo">💰</div>
           <h1 className="app-title">Financial Tracker</h1>
           <p className="auth-subtitle">Create an account to start tracking</p>
         </div>
@@ -49,69 +48,57 @@ const Register = () => {
         <form onSubmit={onSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
-            <div className="input-with-icon">
-              <i className="input-icon">👤</i>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={name}
-                onChange={onChange}
-                placeholder="Enter your full name"
-                required
-              />
-            </div>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={onChange}
+              placeholder="Enter your full name"
+              required
+            />
           </div>
           
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
-            <div className="input-with-icon">
-              <i className="input-icon">✉️</i>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={onChange}
-                placeholder="Enter your email"
-                required
-              />
-            </div>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={onChange}
+              placeholder="Enter your email"
+              required
+            />
           </div>
           
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <div className="input-with-icon">
-              <i className="input-icon">🔒</i>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={onChange}
-                placeholder="Create a password"
-                required
-                minLength={6}
-              />
-            </div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={onChange}
+              placeholder="Create a password"
+              required
+              minLength={6}
+            />
             <p className="password-hint">Password must be at least 6 characters</p>
           </div>
           
           <div className="form-group">
             <label htmlFor="passwordConfirm">Confirm Password</label>
-            <div className="input-with-icon">
-              <i className="input-icon">🔒</i>
-              <input
-                type="password"
-                id="passwordConfirm"
-                name="passwordConfirm"
-                value={passwordConfirm}
-                onChange={onChange}
-                placeholder="Confirm your password"
-                required
-                minLength={6}
-              />
-            </div>
+            <input
+              type="password"
+              id="passwordConfirm"
+              name="passwordConfirm"
+              value={passwordConfirm}
+              onChange={onChange}
+              placeholder="Confirm your password"
+              required
+              minLength={6}
+            />
           </div>
           
           {passwordError && <div className="auth-error">{passwordError}</div>}
